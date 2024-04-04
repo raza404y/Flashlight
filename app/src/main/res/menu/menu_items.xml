@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/rateUs"
+        android:title="@string/rate_us"/>
+
+
+    <item android:id="@+id/sendFeedback"
+        android:title="@string/send_feedback"/>
+
+    <item android:id="@+id/invite"
+        android:title="@string/invite_friends_to_the_app"/>
+
+    <item android:id="@+id/settings"
+        android:title="@string/settings"/>
+
+</menu>
