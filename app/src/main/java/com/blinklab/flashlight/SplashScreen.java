@@ -23,9 +23,7 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         startButton = findViewById(R.id.startButton);
-        // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-
         boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
 
         if (isFirstRun) {
