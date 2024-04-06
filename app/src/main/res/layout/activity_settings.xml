@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/status_bar_color"
+    android:background="@drawable/splash_bg"
     tools:context="com.blinklab.flashlight.Settings">
 
 
@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="20dp"
+        app:titleCentered="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Settings"
@@ -39,7 +40,8 @@
                 android:layout_marginStart="@dimen/_4sdp"
                 android:padding="@dimen/_12sdp"
                 android:text="@string/general"
-                android:textColor="@color/orange"
+                android:textStyle="bold"
+                android:textColor="@color/blue"
                 android:textSize="@dimen/_15ssp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -104,7 +106,8 @@
                     android:layout_marginStart="@dimen/_4sdp"
                     android:padding="@dimen/_12sdp"
                     android:text="@string/about"
-                    android:textColor="@color/orange"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold"
                     android:textSize="@dimen/_15ssp" />
 
 

@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.blueroomxyz.flashlight.R;
@@ -56,12 +57,16 @@ public class FlashLight extends AppCompatActivity {
         appUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());
         checkUpdate();
 
+        binding.goToSettings.setOnClickListener(view -> {
+            startActivity(new Intent(FlashLight.this,Settings.class));
+        });
+
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         isFlashlightOnStartup = sharedPreferences.getBoolean("flashlight_startup", false);
 
         if (isFlashlightOnStartup) {
             turnOnFlashlight();
-            binding.flashlightOff.setOnClickListener(view -> {
+            binding.buttonOff.setOnClickListener(view -> {
                 playSound();
                 flashlightController.toggleFlashlight();
             });
@@ -75,22 +80,15 @@ public class FlashLight extends AppCompatActivity {
             getApplication().registerActivityLifecycleCallbacks(new FlashlightLifecycleCallbacks());
         }
 
-        setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("");
-        Drawable drawable = binding.toolbar.getOverflowIcon();
-        if (drawable != null) {
-            drawable.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-        }
 
-        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        registerReceiver(batteryReceiver, filter);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.button_clicked);
 
-        View flashlightOnView = findViewById(R.id.flashlight_on);
-        flashlightController = new FlashlightController(this, flashlightOnView);
+        View flashlightOnView = findViewById(R.id.button_on);
+        ImageView torchlightOnView = findViewById(R.id.flashlight_on);
+        flashlightController = new FlashlightController(this, flashlightOnView,torchlightOnView);
 
-        binding.flashlightOff.setOnClickListener(view -> {
+        binding.buttonOff.setOnClickListener(view -> {
             playSound();
             flashlightController.toggleFlashlight();
         });
@@ -105,21 +103,10 @@ public class FlashLight extends AppCompatActivity {
 
     }
 
-    private final BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            int batteryLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-            int batteryScale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-            float batteryPercentage = batteryLevel * 100 / (float) batteryScale;
-
-            binding.circularProgress1.setProgress(batteryPercentage, 100);
-        }
-    };
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(batteryReceiver);
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
@@ -192,59 +179,6 @@ public class FlashLight extends AppCompatActivity {
         if (mediaPlayer != null) {
             mediaPlayer.start();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_items, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.invite) {
-
-            try {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Flashlight");
-                intent.putExtra(Intent.EXTRA_TEXT, "Flashlight " + "\n\n" + "https://play.google.com/store/apps/details?id=" + getPackageName());
-                startActivity(Intent.createChooser(intent, "Share with"));
-            } catch (Exception e) {
-                Toast.makeText(FlashLight.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-        } else if (id == R.id.rateUs) {
-            Uri uri;
-            uri = Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName());
-            Intent i = new Intent(Intent.ACTION_VIEW, uri);
-            try {
-                startActivity(i);
-            } catch (Exception e) {
-                Toast.makeText(FlashLight.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-        } else if (id == R.id.sendFeedback) {
-            try {
-                Intent intent = new Intent(Intent.ACTION_SENDTO);
-                intent.setData(Uri.parse("mailto:" + this.getString(R.string.email_feedback)));
-                intent.setPackage("com.google.android.gm");
-                intent.putExtra(Intent.EXTRA_SUBJECT, this.getString(R.string.app_name));
-                startActivity(intent);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (id == R.id.settings) {
-            try {
-                Intent intent = new Intent(FlashLight.this, Settings.class);
-                startActivity(intent);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
     // ## in app update method
     private void checkUpdate() {

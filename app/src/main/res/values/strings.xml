@@ -11,6 +11,8 @@
     <string name="turn_off_at_exit">Turn off at exit</string>
     <string name="about">About</string>
     <string name="invite_friends_to_the_app2">Invite friends to the app</string>
+    <string name="welcome">Welcome</string>
+    <string name="to_the_torch_app">to the torch App</string>
 
 
 </resources>

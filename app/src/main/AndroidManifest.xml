@@ -19,10 +19,9 @@
         android:theme="@style/Theme.Flashlight"
         tools:targetApi="31">
         <activity
-            android:name=".SplashScreen"
+            android:name="com.blinklab.flashlight.SplashScreen"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/SplashScreen">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

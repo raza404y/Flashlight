@@ -2,6 +2,7 @@ package com.blinklab.flashlight;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -31,19 +32,16 @@ public class ScreenLight extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         mediaPlayer = MediaPlayer.create(this, R.raw.button_clicked);
+        binding.goToSettings.setOnClickListener(view -> {
+            startActivity(new Intent(ScreenLight.this,Settings.class));
+        });
 
-        setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("");
-        Drawable drawable = binding.toolbar.getOverflowIcon();
-        if (drawable != null) {
-            drawable.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-        }
         binding.screenlight.setImageResource(R.drawable.cell_phone_oranage);
-        binding.flashlight.setImageResource(R.drawable.flashlight);
+        binding.flashlight.setImageResource(R.drawable.flashlight_black);
         binding.flashlight.setOnClickListener(view -> {
             startActivity(new Intent(this, FlashLight.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
         });
-        binding.screenbrightOff.setOnClickListener(new View.OnClickListener() {
+        binding.buttonOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 playSound();
@@ -54,25 +52,20 @@ public class ScreenLight extends AppCompatActivity {
     private void toggleBrightness() {
         if (isBrightnessHigh) {
             isBrightnessHigh = false;
-            binding.screenbrightOn.setVisibility(View.VISIBLE);
-            binding.container.setBackgroundColor(getResources().getColor(R.color.white));
-            binding.toolbar.setBackgroundColor(getResources().getColor(R.color.white));
-            binding.frameLayout.setBackgroundColor(getResources().getColor(R.color.white));
-            binding.screenbrightOn.setBackgroundColor(getResources().getColor(R.color.white));
-            binding.screenbrightOff.setBackgroundColor(getResources().getColor(R.color.white));
-            binding.screenlight.setBackgroundColor(getResources().getColor(R.color.white));
-            binding.flashlight.setBackgroundColor(getResources().getColor(R.color.white));
+            binding.buttonOn.setVisibility(View.INVISIBLE);
+            binding.flashlightOn.setVisibility(View.INVISIBLE);
+            binding.container.setBackground(ContextCompat.getDrawable(ScreenLight.this, R.drawable.bg_2));
 
         } else {
             isBrightnessHigh = true;
-            binding.screenbrightOn.setVisibility(View.INVISIBLE);
-            binding.container.setBackgroundColor(getResources().getColor(R.color.status_bar_color));
-            binding.toolbar.setBackgroundColor(getResources().getColor(R.color.status_bar_color));
-            binding.frameLayout.setBackgroundColor(getResources().getColor(R.color.status_bar_color));
-            binding.screenbrightOn.setBackgroundColor(getResources().getColor(R.color.status_bar_color));
-            binding.screenbrightOff.setBackgroundColor(getResources().getColor(R.color.status_bar_color));
-            binding.screenlight.setBackgroundColor(getResources().getColor(R.color.status_bar_color));
-            binding.flashlight.setBackgroundColor(getResources().getColor(R.color.status_bar_color));        }
+            binding.buttonOn.setVisibility(View.VISIBLE);
+            setViewsBackgroundColor(R.color.blue);
+            binding.flashlightOn.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setViewsBackgroundColor(int colorResId) {
+        binding.container.setBackgroundColor(getResources().getColor(colorResId));
     }
     @Override
     protected void onDestroy() {

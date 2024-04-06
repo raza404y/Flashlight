@@ -5,6 +5,7 @@
 
 
 
-    <color name="status_bar_color">#093880</color>
+    <color name="status_bar_color">#081945</color>
     <color name="orange">#FFC107</color>
+    <color name="blue">#2D68FF</color>
 </resources>
