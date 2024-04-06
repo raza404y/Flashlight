@@ -26,10 +26,8 @@ public class SplashScreen extends AppCompatActivity {
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
-        // Check if the SplashScreen has been shown before
         boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
 
-        // If it's the first run, show the SplashScreen, otherwise start FlashLight activity
         if (isFirstRun) {
             setContentView(R.layout.activity_splash_screen);
             ImageView startButton = findViewById(R.id.startButton);
@@ -37,7 +35,6 @@ public class SplashScreen extends AppCompatActivity {
             startButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // Store in SharedPreferences that SplashScreen has been shown
                     sharedPreferences.edit().putBoolean("isFirstRun", false).apply();
                     startActivity(new Intent(SplashScreen.this, FlashLight.class));
                     finish();
